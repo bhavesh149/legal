@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          String     @id  // Supabase user id (uuid)
+  email       String     @unique
+  riskProfile Json?      // {role, risk_tolerance, priorities[]}
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  documents   Document[]
+
+  @@map("profiles")
+}
+
+enum DocumentStatus {
+  uploaded
+  processing
+  complete
+  failed
+}
+
+model Document {
+  id          String         @id  // matches AI engine document_id
+  profileId   String
+  profile     Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  filename    String
+  category    String?
+  status      DocumentStatus @default(uploaded)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  job         AnalysisJob?
+  report      RiskReport?
+
+  @@map("documents")
+}
+
+enum JobStatus {
+  queued
+  processing
+  complete
+  failed
+}
+
+model AnalysisJob {
+  id          String    @id  // matches AI engine job_id
+  documentId  String    @unique
+  document    Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  status      JobStatus @default(queued)
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@map("analysis_jobs")
+}
+
+model RiskReport {
+  id          String   @id @default(cuid())
+  documentId  String   @unique
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  safetyScore Int
+  summary     String
+  findings    Json     // ClauseFinding[] stored as JSONB verbatim from AI engine
+  disclaimer  String
+  createdAt   DateTime @default(now())
+
+  @@map("risk_reports")
+}

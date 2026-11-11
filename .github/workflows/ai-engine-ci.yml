@@ -1,0 +1,41 @@
+name: ai-engine-ci
+
+on:
+  push:
+    paths:
+      - "ai-engine/**"
+      - ".github/workflows/ai-engine-ci.yml"
+  pull_request:
+    paths:
+      - "ai-engine/**"
+      - ".github/workflows/ai-engine-ci.yml"
+
+defaults:
+  run:
+    working-directory: ai-engine
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.5.11"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Lint (ruff)
+        run: uv run ruff check .
+
+      - name: Type check (mypy)
+        run: uv run mypy src
+
+      - name: Test (pytest)
+        run: uv run pytest --cov=legal_ai --cov-report=term-missing

@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+dist/
+build/
+*.egg-info/
+
+# corpus source docs (large binary files, not code)
+data/standards/**/*.pdf
+data/standards/**/*.docx
+!data/standards/**/.gitkeep
+
+# local infra volumes
+.minio/
+.qdrant/

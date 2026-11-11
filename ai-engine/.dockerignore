@@ -1,0 +1,12 @@
+.venv/
+.git/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+htmlcov/
+__pycache__/
+tests/
+eval/
+data/standards/**/*.pdf
+data/standards/**/*.docx
+.env
