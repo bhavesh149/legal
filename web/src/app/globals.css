@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+}
+
+html, body {
+  background-color: #0B0D0F;
+  color: #F1F3F4;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+button, a, [role="button"], input[type="submit"], input[type="button"], select {
+  cursor: pointer !important;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Metallic Gold utilities */
+.text-gold {
+  color: #CBA96B;
+}
+
+.bg-gold {
+  background-color: #CBA96B;
+}
+
+.border-gold {
+  border-color: #CBA96B;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F1F3F4 0%, #E0C58A 50%, #CBA96B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-button {
+  background: linear-gradient(135deg, #E0C58A 0%, #CBA96B 100%);
+  color: #0B0D0F;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gold-button:hover {
+  background: linear-gradient(135deg, #EAD399 0%, #D8B777 100%);
+  box-shadow: 0 0 20px -5px rgba(203, 169, 107, 0.35);
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(17, 20, 23, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #22272E;
+}
+
+/* Scanning line animation */
+@keyframes scanline {
+  0% { transform: translateY(-10%); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(500%); opacity: 0; }
+}
+
+.animate-scanline {
+  animation: scanline 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
